@@ -68,18 +68,18 @@ public class FrameSkeleton_Sample1 extends FrameSkeleton {
 	@Override
 	public void onKeyPressed(KeyEvent e) {
 		if(y != 0 && grid.getCellType(x, y-1) != wall)
-		if(e.getKeyCode() == KeyEvent.VK_UP){
+		if(e.getKeyCode() == KeyEvent.VK_W){
 			movePlayer(x, y-1);
 		}
-		if(e.getKeyCode() == KeyEvent.VK_DOWN){
+		if(e.getKeyCode() == KeyEvent.VK_S){
 			if(y+1 < grid.getHeight() && grid.getCellType(x, y+1) != wall)
 				movePlayer(x, y+1);
 		}
-		if(e.getKeyCode() == KeyEvent.VK_LEFT){
+		if(e.getKeyCode() == KeyEvent.VK_A){
 			if(x != 0 && grid.getCellType(x-1, y) != wall)
 			movePlayer(x-1, y);
 		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+		if(e.getKeyCode() == KeyEvent.VK_D){
 			if(x+1 < grid.getWidth() && grid.getCellType(x+1, y) != wall)
 			movePlayer(x+1, y);
 		}

@@ -1,6 +1,9 @@
 package core;
 
+import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,18 +34,20 @@ import java.awt.Font;
 public abstract class FrameSkeleton extends JFrame implements Runnable {
 
 	private JPanel contentPane;
-	private JPanel drawingPane;
+	private Canvas canvas;
+	
 	private JButton btn_new;
 	private JButton btn_start;
 	private JButton btn_stop;
 	private JButton btn_step;
+	
 	private JLabel[] lbl_inputNr = new JLabel[3];
 	private JTextField[] txt_input = new JTextField[3];
 	private JLabel[] lbl_outputNr = new JLabel[3];
 	private JLabel[] lbl_output = new JLabel[3];
 	private JLabel lbl_msg;
-	private Graphics graphics_pnl;
-	private Graphics graphics_img;
+	
+	
 	private Thread thread;
 	private boolean running = false;
 	private int draw_w = 500;
@@ -69,24 +74,22 @@ public abstract class FrameSkeleton extends JFrame implements Runnable {
 		draw_h = cellsize * gridH;
 		grid = new FrameGrid(gridW, gridH);
 		img = new BufferedImage(draw_w, draw_h, BufferedImage.TYPE_INT_RGB);
-		graphics_img = img.getGraphics().create();
 
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.WHITE);
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.DARK_GRAY);
-		this.setResizable(true);
+		contentPane.setPreferredSize(new Dimension(draw_w+10, draw_h+140));
 		this.setTitle(title);
 		this.setContentPane(contentPane);
-//		this.setSize((draw_w < 375?385:draw_w+10), draw_h + 135);			/*Standart (unter Linux passende Größe)*/
-		this.setSize((draw_w < 375?385:draw_w+10) +15 , draw_h + 135 + 40);	/*unter Windows passende Größe...*/
-		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 
 
-		drawingPane = new JPanel();
-		drawingPane.setBounds(5, 5, draw_w, draw_h);
-		drawingPane.setBackground(Color.WHITE);
-		contentPane.add(drawingPane);
+		canvas = new Canvas();
+		canvas.setBounds(5, 5, draw_w, draw_h);
+		canvas.setBackground(Color.WHITE);
+		contentPane.add(canvas);
 
 		lbl_msg = new JLabel("Msg:");
 		lbl_msg.setForeground(Color.WHITE);
@@ -225,7 +228,6 @@ public abstract class FrameSkeleton extends JFrame implements Runnable {
 
 			
 		});
-//		this.setFocusable(true);
 //		this.requestFocus();
 		
 		btn_start.setEnabled(false);
@@ -239,19 +241,20 @@ public abstract class FrameSkeleton extends JFrame implements Runnable {
 		setOutputEnabled(1, false);
 		setOutputEnabled(2, false);
 
-		
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		printGrid();
 	}
 
 	private void on_keyReleased(KeyEvent e) {
 		if(isKeyListenerEnabled())
-			onKeyPressed(e);		
+			onKeyReleased(e);		
 	}
 
 	private void on_keyPressed(KeyEvent e) {
 		if(isKeyListenerEnabled())
-			onKeyReleased(e);		
+			onKeyPressed(e);		
 	}
 	
 	/**
@@ -393,33 +396,36 @@ public abstract class FrameSkeleton extends JFrame implements Runnable {
 	 */
 	public void printGrid() {
 		
-		graphics_img.setColor(grid.getGridBackgroundColor());
-		graphics_img.fillRect(0, 0, draw_w, draw_h);
+		Graphics gr = img.getGraphics();
 		
-		graphics_pnl = drawingPane.getGraphics();
+		gr.setColor(grid.getGridBackgroundColor());
+		gr.fillRect(0, 0, draw_w, draw_h);
 
 		for (int i = 0; i < grid.getWidth(); i++) {
 			for (int j = 0; j < grid.getHeight(); j++) {
-				graphics_img.setColor(grid.getCellColor(i, j));
+				gr.setColor(grid.getCellColor(i, j));
 				if(grid.getCellShape(i, j) == FrameGrid.SHAPE_RECT)
-					graphics_img.fillRect(i * cellsize, j * cellsize, cellsize, cellsize);
+					gr.fillRect(i * cellsize, j * cellsize, cellsize, cellsize);
 				else
-					graphics_img.fillOval(i * cellsize, j * cellsize, cellsize, cellsize);
+					gr.fillOval(i * cellsize, j * cellsize, cellsize, cellsize);
 			}
 		}
 		
 		if(gridlines){
 			for (int i = 0; i < grid.getWidth(); i++) {
-				graphics_img.setColor(Color.DARK_GRAY);
-				graphics_img.drawLine(i*cellsize, 0, i*cellsize, grid.getWidth()*cellsize-1);
+				gr.setColor(Color.DARK_GRAY);
+				gr.drawLine(i*cellsize, 0, i*cellsize, grid.getWidth()*cellsize-1);
 			}
 			for (int j = 0; j < grid.getHeight(); j++) {
-				graphics_img.setColor(Color.DARK_GRAY);
-				graphics_img.drawLine(0, j*cellsize, grid.getHeight()*cellsize-1, j*cellsize);
+				gr.setColor(Color.DARK_GRAY);
+				gr.drawLine(0, j*cellsize, grid.getHeight()*cellsize-1, j*cellsize);
 			}
 		}
 
-		graphics_pnl.drawImage(img, 0, 0, null);
+		gr.dispose();
+		gr = canvas.getGraphics();	
+		gr.drawImage(img, 0, 0, null);
+		gr.dispose();
 	}
 
 	/**
