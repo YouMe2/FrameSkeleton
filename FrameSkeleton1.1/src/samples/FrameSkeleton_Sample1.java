@@ -71,8 +71,6 @@ public class FrameSkeleton_Sample1 extends FrameSkeleton {		/* STEP 1 - ERBEN */
 		for (int i = 0; i < coins; i++) {
 			grid.setCellType((int)(Math.random()*15), (int)(Math.random()*15), coin);
 		}
-		
-		setKeyListenerEnabled(true);
 
 		movePlayer(5,5);
 		

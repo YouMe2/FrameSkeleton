@@ -20,7 +20,7 @@ public class FrameSkeleton_MethodTest extends FrameSkeleton {		/* STEP 1 - ERBEN
 	FrameGrid grid;
 	
 	public static void main(String[] args) {						/* STEP 2 - WERTE des Grids INITIALISIEREN*/
-		new FrameSkeleton_MethodTest(20, 12, 12);
+		new FrameSkeleton_MethodTest(40, 12, 12);
 	}
 	
 	public FrameSkeleton_MethodTest(int cellsize, int gridW, int gridH) {
@@ -35,9 +35,7 @@ public class FrameSkeleton_MethodTest extends FrameSkeleton {		/* STEP 1 - ERBEN
 		this.setTitle("TEST TITLE");	
 		
 		setGridlinesVisible(true);						/* Gitterlinien aktivieren */
-		
-		setKeyListenerEnabled(true);					/* Keylistener aktivieren */
-		System.out.println( isKeyListenerEnabled() );	/* Keylistener checken */
+
 		
 		System.out.println( isStarted() );				/* auf laufenden Thread checken */
 		
@@ -104,7 +102,7 @@ public class FrameSkeleton_MethodTest extends FrameSkeleton {		/* STEP 1 - ERBEN
 
 	@Override
 	public void onStop() {
-		System.out.println("STOPED");
+		System.out.println("STOPPED");
 
 	}
 
