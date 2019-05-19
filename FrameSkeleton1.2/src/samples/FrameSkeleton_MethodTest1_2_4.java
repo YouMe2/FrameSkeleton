@@ -68,19 +68,21 @@ public class FrameSkeleton_MethodTest1_2_4 extends FrameSkeleton implements Obse
 		iGrid.setBackgroundColor(Color.WHITE);
 		
 		
-		TextureType[] ground = iGrid.addNewImageTextureTypes("ground", 5, 16, 16, "C:\\Users.\\Anwender\\Google Drive\\devel\\workspace-jee\\FrameSkeleton1.2\\res\\cell_res1.png");
+
+		String respath = "C:\\Users\\yanni\\git\\FrameSkeleton\\FrameSkeleton1.2\\res\\";
+		TextureType[] ground = iGrid.addNewImageTextureTypes("ground", 5, 16, 16, respath+"cell_res1.png");
 		
-		TextureType[] ent = iSpace.addNewImageTextureTypes("ent", 3, 32, 32, "C:\\Users.\\Anwender\\Google Drive\\devel\\workspace-jee\\FrameSkeleton1.2\\res\\cell_res2.png");
+		TextureType[] ent = iSpace.addNewImageTextureTypes("ent", 3, 32, 32, respath+"cell_res2.png");
 		TextureType tree = ent[2];
 		TextureType player0 = ent[0];
 		TextureType player1 = ent[1];
 		
-		TextureType[] item = iSpace.addNewImageTextureTypes("item", 3, 32, 32, "C:\\Users.\\Anwender\\Google Drive\\devel\\workspace-jee\\FrameSkeleton1.2\\res\\cell_res3.png");
+		TextureType[] item = iSpace.addNewImageTextureTypes("item", 3, 32, 32, respath+"cell_res3.png");
 		TextureType shild0 = item[0];
 		TextureType shild1 = item[1];
 		TextureType sword = item[2];
 		
-		TextureType dude = iSpace.addNewImageTextureType("dude", "C:\\Users.\\Anwender\\Google Drive\\devel\\workspace-jee\\FrameSkeleton1.2\\res\\Dude.png");
+		TextureType dude = iSpace.addNewImageTextureType("dude", respath+"Dude.png");
 		
 		for (int i = 0; i <iGrid.getWidth(); i++) {
 			for (int j = 0; j < iGrid.getHeight(); j++) {
